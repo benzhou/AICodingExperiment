@@ -42,8 +42,8 @@ jobs:
           AWS_ACCOUNT_ID: ${{ env.AWS_ACCOUNT_ID }}  # Use the retrieved account ID
         run: |
           docker build -t my-app .
-          docker tag my-app:latest $AWS_ACCOUNT_ID.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/my-app:latest
-          docker push $AWS_ACCOUNT_ID.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/my-app:latest
+          docker tag my-app:latest $AWS_ACCOUNT_ID.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/aicodedemo:latest
+          docker push $AWS_ACCOUNT_ID.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/aicodedemo:latest
  
 
       - name: Deploy to Elastic Beanstalk
