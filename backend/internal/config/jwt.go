@@ -6,8 +6,8 @@ import (
 )
 
 var (
-	JWTSecret      = []byte(getEnvOrDefault("JWT_SECRET", "your-secret-key-here"))
-	JWTExpiryHours = getEnvIntOrDefault("JWT_EXPIRY_HOURS", 24)
+	JWTSecret        = []byte(getEnvOrDefault("JWT_SECRET", "your-secret-key-here"))
+	JWTExpiryMinutes = getEnvIntOrDefault("JWT_EXPIRY_MINUTES", 60)
 )
 
 func getEnvOrDefault(key, defaultValue string) string {

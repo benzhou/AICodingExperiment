@@ -20,7 +20,7 @@ func NewJWTService() *JWTService {
 }
 
 func (s *JWTService) GenerateToken(user *models.User) (*TokenInfo, error) {
-	expirationTime := time.Now().Add(time.Hour * time.Duration(config.JWTExpiryHours))
+	expirationTime := time.Now().Add(time.Minute * time.Duration(config.JWTExpiryMinutes))
 
 	claims := jwt.MapClaims{
 		"user_id": user.ID,

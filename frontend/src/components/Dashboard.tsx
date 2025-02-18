@@ -1,17 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useUser } from '../context/UserContext';
 import { authService } from '../services/authService';
 import { useNavigate } from 'react-router-dom';
-import { TokenDebug } from './TokenDebug';
+import { TokenModal } from './TokenModal';
+import { UserMenu } from './UserMenu';
 
 export function Dashboard() {
   const { user, setUser } = useUser();
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [tokenInfo, setTokenInfo] = useState<{
+    token: string | null;
+    decodedToken: any | null;
+    expiresIn: number | null;
+    isValid: boolean;
+  }>({
+    token: null,
+    decodedToken: null,
+    expiresIn: null,
+    isValid: false,
+  });
 
   const handleLogout = () => {
     authService.logout();
     setUser(null);
     navigate('/login');
+  };
+
+  const handleTokenDebug = async () => {
+    const token = authService.getToken();
+    if (token) {
+      const info = await authService.getTokenInfo();
+      const [header, payload] = token.split('.').slice(0, 2);
+      const decodedToken = JSON.parse(atob(payload));
+      setTokenInfo({
+        token: token,
+        decodedToken: decodedToken,
+        expiresIn: info.expires_in !== undefined ? info.expires_in : null,
+        isValid: info.expires_in > 0,
+      });
+      setIsModalOpen(true);
+    }
   };
 
   return (
@@ -23,22 +52,21 @@ export function Dashboard() {
               <h1 className="text-xl font-semibold">Dashboard</h1>
             </div>
             <div className="flex items-center">
-              <span className="mr-4">Welcome, {user?.name}</span>
-              <button
-                onClick={handleLogout}
-                className="bg-red-600 text-white px-4 py-2 rounded-md text-sm font-medium"
-              >
-                Logout
-              </button>
+              <UserMenu username={user?.name} onTokenDebug={handleTokenDebug} onLogout={handleLogout} />
             </div>
           </div>
         </div>
       </nav>
       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
-          <TokenDebug />
+          {/* Other dashboard content can go here */}
         </div>
       </main>
+      <TokenModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        tokenInfo={tokenInfo}
+      />
     </div>
   );
 } 
