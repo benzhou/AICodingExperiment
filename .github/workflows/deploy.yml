@@ -1,4 +1,4 @@
-name: Deploy to AWS Elastic Beanstalk
+name: Deploy to AWS ECS
 
 on:
   push:
@@ -19,17 +19,17 @@ jobs:
 
       - name: Log in to Amazon ECR
         env:
-            AWS_REGION: ${{ secrets.AWS_REGION }}  # Ensure this is set
-            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}  # Ensure this is set
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         uses: aws-actions/amazon-ecr-login@v1
 
       - name: Get AWS Account ID
         id: get_account_id
         env:
-            AWS_REGION: ${{ secrets.AWS_REGION }}  # Ensure this is set
-            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}  # Ensure this is set
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
           ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
           echo "AWS_ACCOUNT_ID=${ACCOUNT_ID}" >> $GITHUB_ENV
@@ -40,16 +40,17 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_ACCOUNT_ID: ${{ env.AWS_ACCOUNT_ID }}  # Use the retrieved account ID
+          GITHUB_SHA: ${{ github.sha }}  # Get the commit SHA for versioning
         run: |
           docker build -t my-app .
-          docker tag my-app:latest $AWS_ACCOUNT_ID.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/aicodedemo:latest
-          docker push $AWS_ACCOUNT_ID.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/aicodedemo:latest
- 
+          docker tag my-app:latest $AWS_ACCOUNT_ID.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/aicodedemo:${GITHUB_SHA}
+          docker push $AWS_ACCOUNT_ID.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/aicodedemo:${GITHUB_SHA}
 
-      - name: Deploy to Elastic Beanstalk
+      - name: Update ECS Service
         env:
           AWS_REGION: ${{ secrets.AWS_REGION }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
-          aws elasticbeanstalk update-environment --environment-name ${{ secrets.EB_ENV_NAME }} --version-label latest
+          # Update the ECS service to use the new image
+          aws ecs update-service --cluster aicodemo-cluster --service aicodemo --force-new-deployment --desired-count 1
