@@ -1,0 +1,24 @@
+{
+  "auth": {
+    "errors": {
+      "invalidCredentials": "Invalid email or password",
+      "emailExists": "An account with this email already exists",
+      "registrationFailed": "Registration failed. Please try again",
+      "required": "This field is required",
+      "invalidEmail": "Please enter a valid email address",
+      "passwordLength": "Password must be at least 6 characters"
+    },
+    "success": {
+      "registration": "Registration successful! Welcome aboard!"
+    },
+    "labels": {
+      "email": "Email address",
+      "password": "Password",
+      "name": "Full name",
+      "login": "Sign in",
+      "register": "Create account",
+      "googleLogin": "Sign in with Google",
+      "haveAccount": "Already have an account? Sign in"
+    }
+  }
+} 

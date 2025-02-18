@@ -1,0 +1,14 @@
+my-app/
+├── backend/
+│   ├── main.go
+│   ├── go.mod
+│   └── handlers/
+│       └── hello.go
+└── frontend/
+    ├── package.json
+    ├── public/
+    │   └── index.html
+    └── src/
+        ├── App.js
+        ├── App.css
+        └── index.js 

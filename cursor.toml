@@ -1,0 +1,97 @@
+[project]
+name = "go-react-fullstack"
+description = "Full stack application with Go backend and React frontend, designed for AWS/Kubernetes deployment"
+version = "0.1.0"
+
+[standards]
+api_first = true
+infrastructure_as_code = true
+cloud_provider = "aws"
+container_platform = "kubernetes"
+
+[architecture]
+backend_language = "go"
+frontend_framework = "react"
+api_style = "REST"
+database = "postgresql"  # Default database choice
+message_broker = "aws-sqs"  # Default message broker
+
+[code_structure]
+backend_path = "./backend"
+frontend_path = "./frontend"
+infrastructure_path = "./infrastructure"
+api_specs_path = "./api-specs"
+
+[testing]
+backend_framework = "go testing"
+frontend_framework = "jest"
+e2e_framework = "cypress"
+coverage_threshold = 80
+
+[deployment]
+environment_strategy = [
+    "development",
+    "staging",
+    "production"
+]
+container_registry = "ECR"
+ci_cd = "GitHub Actions"
+
+[api_standards]
+version_prefix = "v1"
+base_path = "/api/v1"
+spec_format = "OpenAPI 3.0"
+authentication = "JWT"
+rate_limiting = true
+
+[kubernetes]
+namespace_strategy = "environment-based"
+deployment_tool = "helm"
+service_mesh = "istio"
+monitoring = [
+    "prometheus",
+    "grafana"
+]
+
+[aws_services]
+preferred_services = [
+    "EKS",        # Kubernetes
+    "ECR",        # Container Registry
+    "RDS",        # Database
+    "SQS",        # Message Queue
+    "CloudWatch", # Monitoring
+    "Route53",    # DNS
+    "ACM",        # Certificates
+    "IAM",        # Access Management
+    "S3"          # Object Storage
+]
+
+[development_practices]
+code_review_required = true
+branch_strategy = "git-flow"
+documentation_required = true
+api_documentation = "swagger"
+commit_convention = "conventional-commits"
+
+[security]
+scan_dependencies = true
+container_scanning = true
+secret_management = "aws-secrets-manager"
+ssl_required = true
+
+[observability]
+logging = "ELK Stack"
+metrics = "prometheus"
+tracing = "jaeger"
+alerts = "alertmanager"
+
+[quality]
+linters = [
+    "golangci-lint",  # Go
+    "eslint",         # JavaScript/React
+    "prettier"        # Code formatting
+]
+static_analysis = true
+security_scanning = true
+
+[directory_structure] 

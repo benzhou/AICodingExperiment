@@ -1,0 +1,58 @@
+openapi: 3.0.0
+info:
+  title: Authentication API
+  version: v1
+paths:
+  /api/v1/auth/login:
+    post:
+      summary: Login with email/password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        200:
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+  /api/v1/auth/google:
+    get:
+      summary: Initiate Google OAuth flow
+  /api/v1/auth/google/callback:
+    get:
+      summary: Google OAuth callback handler
+
+components:
+  schemas:
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+    LoginResponse:
+      type: object
+      properties:
+        token:
+          type: string
+        user:
+          $ref: '#/components/schemas/User'
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type: string
+        name:
+          type: string
+        auth_provider:
+          type: string
+          enum: [local, google] 
