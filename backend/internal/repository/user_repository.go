@@ -5,6 +5,7 @@ import (
 	"backend/internal/models"
 	"database/sql"
 	"errors"
+	"log"
 )
 
 var (
@@ -17,10 +18,13 @@ type UserRepository interface {
 	FindByID(id string) (*models.User, error)
 	FindByEmail(email string) (*models.User, error)
 	Update(user *models.User) error
+	GetUserByID(userID string) (*models.User, error)
 }
 
 type PostgresUserRepository struct {
-	db *sql.DB
+	db              *sql.DB
+	findByEmailStmt *sql.Stmt
+	// Add other prepared statements as needed
 }
 
 func NewUserRepository() UserRepository {
@@ -72,7 +76,41 @@ func (r *MockUserRepository) Update(user *models.User) error {
 	return nil
 }
 
+// GetUserByID retrieves a user by their ID
+func (r *MockUserRepository) GetUserByID(userID string) (*models.User, error) {
+	for _, user := range r.users {
+		if user.ID == userID {
+			return user, nil
+		}
+	}
+	return nil, ErrUserNotFound
+}
+
+// Add these validation functions
+func validateEmail(email string) error {
+	if len(email) > 255 { // Adjust max length as needed
+		return errors.New("email too long")
+	}
+	// Add more email validation as needed
+	return nil
+}
+
+func validateUserInput(user *models.User) error {
+	if err := validateEmail(user.Email); err != nil {
+		return err
+	}
+	if len(user.Name) > 100 { // Adjust max length as needed
+		return errors.New("name too long")
+	}
+	return nil
+}
+
+// Update the Create method to include validation
 func (r *PostgresUserRepository) Create(user *models.User) error {
+	if err := validateUserInput(user); err != nil {
+		return err
+	}
+
 	query := `
 		INSERT INTO users (email, name, password_hash, auth_provider)
 		VALUES ($1, $2, $3, $4)
@@ -153,4 +191,45 @@ func (r *PostgresUserRepository) Update(user *models.User) error {
 		return ErrUserNotFound
 	}
 	return err
+}
+
+// GetUserByID retrieves a user by their ID
+func (r *PostgresUserRepository) GetUserByID(userID string) (*models.User, error) {
+	var user models.User
+
+	query := "SELECT id, name, email FROM users WHERE id = $1"
+	err := r.db.QueryRow(query, userID).Scan(&user.ID, &user.Name, &user.Email)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, ErrUserNotFound
+		}
+		log.Println("Error querying user:", err)
+		return nil, err
+	}
+
+	return &user, nil
+}
+
+func NewPostgresUserRepository(db *sql.DB) (*PostgresUserRepository, error) {
+	findByEmailStmt, err := db.Prepare(`
+		SELECT id, email, name, password_hash, auth_provider, created_at, updated_at
+		FROM users
+		WHERE email = $1
+	`)
+	if err != nil {
+		return nil, err
+	}
+
+	return &PostgresUserRepository{
+		db:              db,
+		findByEmailStmt: findByEmailStmt,
+	}, nil
+}
+
+// Don't forget to close prepared statements
+func (r *PostgresUserRepository) Close() error {
+	if r.findByEmailStmt != nil {
+		return r.findByEmailStmt.Close()
+	}
+	return nil
 }
