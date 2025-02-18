@@ -35,6 +35,11 @@ func main() {
 	r := mux.NewRouter()
 
 	// Public routes
+	r.HandleFunc("/", handlers.ServeStaticFiles)
+
+	// Serve static files from the frontend build directory
+	r.PathPrefix("/static/").HandlerFunc(handlers.ServeStaticFiles)
+
 	r.HandleFunc("/api/v1/auth/register", authHandler.Register).Methods("POST")
 	r.HandleFunc("/api/v1/auth/login", authHandler.Login).Methods("POST")
 
@@ -50,7 +55,7 @@ func main() {
 
 	// Setup CORS
 	c := cors.New(cors.Options{
-		AllowedOrigins: []string{"http://localhost:3000"},
+		//AllowedOrigins: []string{"http://localhost:3000"},
 		AllowedMethods: []string{"GET", "POST", "OPTIONS"},
 		AllowedHeaders: []string{"Content-Type", "Authorization"},
 	})
