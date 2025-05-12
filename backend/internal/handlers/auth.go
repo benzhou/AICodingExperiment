@@ -11,12 +11,14 @@ import (
 type AuthHandler struct {
 	authService *services.AuthService
 	jwtService  *services.JWTService
+	roleService *services.RoleService
 }
 
-func NewAuthHandler(userRepo repository.UserRepository) *AuthHandler {
+func NewAuthHandler(userRepo repository.UserRepository, roleService *services.RoleService) *AuthHandler {
 	return &AuthHandler{
 		authService: services.NewAuthService(userRepo),
 		jwtService:  services.NewJWTService(),
+		roleService: roleService,
 	}
 }
 
@@ -69,10 +71,33 @@ func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Get user roles
+	var roles []string
+	if h.roleService != nil {
+		userRoles, err := h.roleService.GetUserRoles(user.ID)
+		if err == nil {
+			// Convert Role type to strings
+			for _, role := range userRoles {
+				roles = append(roles, string(role))
+			}
+		}
+	}
+
+	// Check for admin role
+	isAdmin := false
+	for _, role := range roles {
+		if role == "admin" {
+			isAdmin = true
+			break
+		}
+	}
+
 	json.NewEncoder(w).Encode(map[string]interface{}{
 		"token":      tokenInfo.Token,
 		"expires_in": tokenInfo.ExpiresIn,
 		"user":       user,
+		"roles":      roles,
+		"is_admin":   isAdmin,
 	})
 }
 
@@ -106,4 +131,42 @@ func (h *AuthHandler) GetTokenInfo(w http.ResponseWriter, r *http.Request) {
 	}
 
 	json.NewEncoder(w).Encode(tokenInfo)
+}
+
+// GetTokenInfoPublic is a public version of GetTokenInfo for debugging/testing
+func (h *AuthHandler) GetTokenInfoPublic(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	// Get token from Authorization header
+	authHeader := r.Header.Get("Authorization")
+	if authHeader == "" {
+		json.NewEncoder(w).Encode(map[string]interface{}{
+			"status":  "error",
+			"message": "No authorization header provided",
+		})
+		return
+	}
+
+	tokenParts := strings.Split(authHeader, " ")
+	if len(tokenParts) != 2 || tokenParts[0] != "Bearer" {
+		json.NewEncoder(w).Encode(map[string]interface{}{
+			"status":  "error",
+			"message": "Invalid authorization format. Use 'Bearer TOKEN'",
+		})
+		return
+	}
+
+	tokenInfo, err := h.jwtService.GetTokenInfo(tokenParts[1])
+	if err != nil {
+		json.NewEncoder(w).Encode(map[string]interface{}{
+			"status":  "error",
+			"message": "Invalid token: " + err.Error(),
+		})
+		return
+	}
+
+	json.NewEncoder(w).Encode(map[string]interface{}{
+		"status":     "ok",
+		"token_info": tokenInfo,
+	})
 }

@@ -4,6 +4,8 @@ import (
 	"backend/internal/models"
 	"backend/internal/repository"
 	"errors"
+	"log"
+	"strings"
 	"time"
 
 	"golang.org/x/crypto/bcrypt"
@@ -49,21 +51,35 @@ func (s *AuthService) Register(email, name, password string) (*models.User, erro
 }
 
 func (s *AuthService) Login(email, password string) (*models.User, error) {
+	// Normalize email - trim whitespace and convert to lowercase
+	email = strings.TrimSpace(strings.ToLower(email))
+	// Trim any whitespace from password
+	password = strings.TrimSpace(password)
+
+	// Add debug logging
+	log.Printf("Attempting login for email: %s", email)
+
 	user, err := s.userRepo.FindByEmail(email)
 	if err != nil {
 		if err == repository.ErrUserNotFound {
+			log.Printf("User not found: %s", email)
 			return nil, errors.New("invalid credentials")
 		}
+		log.Printf("Database error when finding user: %v", err)
 		return nil, err
 	}
+
+	log.Printf("User found, comparing password hash")
 
 	if err := bcrypt.CompareHashAndPassword(
 		[]byte(user.PasswordHash),
 		[]byte(password),
 	); err != nil {
+		log.Printf("Password comparison failed: %v", err)
 		return nil, errors.New("invalid credentials")
 	}
 
+	log.Printf("Login successful for user: %s", email)
 	return user, nil
 }
 

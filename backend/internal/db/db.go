@@ -36,4 +36,10 @@ func InitDB() {
 	}
 
 	log.Println("Successfully connected to database")
+
+	// Run migrations
+	if err = RunMigrations(); err != nil {
+		log.Printf("Error running migrations: %v\n", err)
+		return
+	}
 }

@@ -1,0 +1,238 @@
+{
+  "auth": {
+    "errors": {
+      "invalidCredentials": "邮箱或密码无效",
+      "emailExists": "该邮箱已被注册",
+      "registrationFailed": "注册失败，请重试",
+      "required": "此字段为必填项",
+      "invalidEmail": "请输入有效的邮箱地址",
+      "passwordLength": "密码长度至少为6个字符",
+      "noToken": "未找到认证令牌，请重新登录"
+    },
+    "success": {
+      "registration": "注册成功！欢迎加入！"
+    },
+    "labels": {
+      "email": "邮箱地址",
+      "password": "密码",
+      "name": "姓名",
+      "login": "登录",
+      "register": "创建账户",
+      "googleLogin": "使用谷歌账号登录",
+      "haveAccount": "已有账户？请登录"
+    }
+  },
+  "navigation": {
+    "home": "首页",
+    "dashboard": "仪表盘",
+    "dataSources": "数据源",
+    "dataSourceDefinition": "数据源定义",
+    "uploadDataSources": "上传数据源",
+    "transactionMatch": "交易匹配",
+    "matchset": "匹配规则配置",
+    "matchedTransactions": "已匹配交易",
+    "unmatchedTransactions": "未匹配交易",
+    "darkMode": "切换到深色模式",
+    "lightMode": "切换到浅色模式"
+  },
+  "dashboard": {
+    "welcome": "欢迎使用交易匹配系统",
+    "description": "本应用帮助您匹配来自不同数据源的交易记录。",
+    "manageDataSources": {
+      "title": "管理数据源",
+      "description": "创建和管理交易数据的数据源。",
+      "action": "前往数据源"
+    },
+    "uploadData": {
+      "title": "上传交易数据",
+      "description": "上传CSV文件中的交易数据进行匹配。",
+      "action": "上传数据"
+    },
+    "stats": {
+      "dataSources": "数据源",
+      "transactions": "交易记录",
+      "matched": "已匹配",
+      "unmatched": "未匹配",
+      "matchRate": "匹配率"
+    }
+  },
+  "dataSources": {
+    "title": "数据源管理",
+    "description": "数据源代表不同的交易来源，如总账系统、银行对账单或其他财务数据提供者。",
+    "addSource": "添加数据源",
+    "name": "名称",
+    "description": "描述",
+    "createdAt": "创建时间",
+    "actions": "操作",
+    "edit": "编辑数据源",
+    "create": "创建数据源",
+    "deleteConfirm": "确定要删除此数据源吗？",
+    "deleteConfirmNotice": "此操作无法撤销。",
+    "deleteConfirmYes": "是的，删除它",
+    "cancel": "取消",
+    "save": "保存",
+    "successCreated": "数据源创建成功",
+    "successUpdated": "数据源更新成功",
+    "successDeleted": "数据源删除成功",
+    "errorDelete": "删除数据源失败",
+    "errorSave": "保存数据源失败",
+    "errorFetch": "获取数据源失败",
+    "nameRequired": "请输入名称"
+  },
+  "upload": {
+    "title": "上传交易数据",
+    "description": "上传CSV文件中的交易数据用于匹配处理。",
+    "selectDataSource": "选择数据源",
+    "dataSource": "数据源",
+    "dateFormat": "日期格式",
+    "dateFormatHint": "CSV文件中的日期解析格式（例如：2006-01-02表示YYYY-MM-DD）",
+    "file": "文件",
+    "mappings": "列映射",
+    "fileUpload": {
+      "title": "文件上传",
+      "dragText": "点击或拖拽CSV文件到此区域上传",
+      "hint": "仅支持CSV文件。第一行应包含标题。",
+      "failed": "文件上传失败。",
+      "selectFile": "选择文件",
+      "dragDropTitle": "拖拽上传"
+    },
+    "columnMapping": {
+      "title": "列映射",
+      "description": "将CSV列映射到交易字段",
+      "instructions": "将CSV列映射到所需的交易字段",
+      "selectColumn": "选择列"
+    },
+    "preview": "数据预览",
+    "noPreviewData": "无可用预览数据",
+    "pleaseUploadFirst": "请先上传文件",
+    "summary": "上传摘要",
+    "readyToProcess": "准备处理",
+    "processDescription": "在完成上传前，请检查您的文件和列映射",
+    "noDataToProcess": "没有可处理的数据",
+    "processData": {
+      "title": "处理数据",
+      "submit": "处理并上传数据"
+    },
+    "steps": {
+      "selectDataSource": "选择数据源",
+      "uploadFile": "上传文件",
+      "mapColumns": "映射列"
+    },
+    "dataSourceSelect": {
+      "label": "数据源",
+      "help": "选择此交易数据的数据源",
+      "placeholder": "选择数据源"
+    },
+    "navigation": {
+      "previous": "上一步",
+      "next": "下一步",
+      "uploadData": "上传数据"
+    },
+    "validation": {
+      "selectDataSource": "请选择数据源",
+      "selectFile": "请上传文件",
+      "requiredFields": "请映射必填字段",
+      "waitForUpload": "请等待文件上传完成后再继续",
+      "uploadFirst": "请上传文件并等待服务器处理后再继续",
+      "noDataParsed": "无法从您的文件中解析数据。请尝试上传其他文件",
+      "csvOnly": "仅支持CSV文件",
+      "fileRequired": "未选择文件。请先选择一个CSV文件。",
+      "dataSourceRequired": "未选择数据源。请在上传前选择一个数据源。"
+    },
+    "success": "文件上传成功",
+    "error": "文件上传失败"
+  },
+  "matchset": {
+    "title": "匹配规则配置",
+    "description": "配置用于自动匹配交易的规则"
+  },
+  "transactions": {
+    "matched": {
+      "title": "已匹配交易",
+      "description": "查看和管理已匹配的交易"
+    },
+    "unmatched": {
+      "title": "未匹配交易",
+      "description": "查看和管理无法匹配的交易"
+    }
+  },
+  "userProfile": {
+    "title": "用户资料",
+    "language": "语言",
+    "languageDescription": "选择您的首选语言",
+    "theme": "主题",
+    "themeDescription": "选择浅色或深色模式",
+    "light": "浅色",
+    "dark": "深色",
+    "save": "保存更改",
+    "successUpdate": "资料更新成功",
+    "tabs": {
+      "profile": "个人资料",
+      "branding": "品牌设置",
+      "userManagement": "用户管理"
+    }
+  },
+  "userManagement": {
+    "title": "用户管理",
+    "createUser": "创建用户",
+    "editUser": "编辑用户",
+    "name": "姓名",
+    "email": "电子邮件",
+    "password": "密码",
+    "role": "角色",
+    "roles": {
+      "admin": "管理员",
+      "preparer": "准备人",
+      "approver": "审批人"
+    },
+    "actions": {
+      "edit": "编辑",
+      "makeAdmin": "设为管理员",
+      "removeAdmin": "移除管理员",
+      "addPreparer": "添加准备人角色",
+      "addApprover": "添加审批人角色",
+      "removeRole": "移除角色"
+    },
+    "confirmDelete": "确定要删除此用户吗？",
+    "userCreated": "用户创建成功",
+    "userUpdated": "用户更新成功",
+    "roleAdded": "角色添加成功",
+    "roleRemoved": "角色移除成功",
+    "errors": {
+      "fetchFailed": "获取用户失败",
+      "createFailed": "创建用户失败",
+      "updateFailed": "更新用户失败",
+      "roleFailed": "更新用户角色失败"
+    }
+  },
+  "common": {
+    "loading": "加载中...",
+    "error": "发生错误",
+    "success": "成功",
+    "save": "保存",
+    "cancel": "取消",
+    "edit": "编辑",
+    "delete": "删除",
+    "create": "创建",
+    "view": "查看",
+    "actions": "操作",
+    "uploading": "上传中...",
+    "debugInfo": "调试信息",
+    "size": "大小",
+    "rawFile": "原始文件对象",
+    "fileUploaded": "文件已上传",
+    "uploadSuccess": "上传成功",
+    "uploadError": "上传错误",
+    "available": "可用",
+    "notAvailable": "不可用",
+    "yes": "是",
+    "no": "否",
+    "none": "无",
+    "testBackendConnection": "测试后端连接",
+    "testingBackend": "正在测试到后端的直接连接...",
+    "connectionSuccess": "成功连接到后端！",
+    "connectionFailed": "无法连接到后端服务器",
+    "authSuccess": "身份验证成功！",
+    "authFailedServerReachable": "身份验证失败，但服务器可达"
+  }
+} 

@@ -1,0 +1,368 @@
+/* Theme Variables */
+:root[data-theme="light"] {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f0f2f5;
+  --text-primary: rgba(0, 0, 0, 0.85);
+  --text-secondary: rgba(0, 0, 0, 0.65);
+  --border-color: #d9d9d9;
+  --sidebar-bg: #ffffff;
+  --component-bg: #ffffff;
+  --header-bg: #ffffff;
+  --shadow-color: rgba(0, 0, 0, 0.15);
+  --input-bg: #ffffff;
+  --input-text: rgba(0, 0, 0, 0.85);
+  --card-bg: #ffffff;
+  --menu-item-active: #e6f7ff;
+  --menu-item-active-text: #1890ff;
+  --dropdown-bg: #ffffff;
+  --dropdown-text: rgba(0, 0, 0, 0.85);
+  --tooltip-bg: #000000;
+  --tooltip-text: #ffffff;
+  --table-bg: #ffffff;
+  --table-header-bg: #fafafa;
+  --table-header-text: rgba(0, 0, 0, 0.85);
+  --table-row-hover: #f5f5f5;
+}
+
+:root[data-theme="dark"] {
+  --bg-primary: #141414;
+  --bg-secondary: #1f1f1f;
+  --text-primary: rgba(255, 255, 255, 0.85);
+  --text-secondary: rgba(255, 255, 255, 0.65);
+  --border-color: #303030;
+  --sidebar-bg: #1f1f1f;
+  --component-bg: #1f1f1f;
+  --header-bg: #1f1f1f;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --input-bg: #141414;
+  --input-text: rgba(255, 255, 255, 0.85);
+  --card-bg: #1f1f1f;
+  --menu-item-active: #111b26;
+  --menu-item-active-text: #1890ff;
+  --dropdown-bg: #1f1f1f;
+  --dropdown-text: rgba(255, 255, 255, 0.85);
+  --tooltip-bg: #333333;
+  --tooltip-text: #ffffff;
+  --table-bg: #1f1f1f;
+  --table-header-bg: #141414;
+  --table-header-text: rgba(255, 255, 255, 0.85);
+  --table-row-hover: #303030;
+}
+
+/* Apply theme to global elements */
+body {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Ant Design theme overrides */
+.ant-layout {
+  background-color: var(--bg-secondary) !important;
+}
+
+.ant-layout-sider {
+  background-color: var(--sidebar-bg) !important;
+  border-right: 1px solid var(--border-color);
+}
+
+.ant-layout-header {
+  background-color: var(--header-bg) !important;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-primary);
+}
+
+/* Menu styling */
+.ant-menu {
+  background-color: var(--sidebar-bg) !important;
+  color: var(--text-primary) !important;
+  border-right-color: var(--border-color) !important;
+}
+
+.ant-menu-item {
+  color: var(--text-primary) !important;
+}
+
+.ant-menu-item-selected {
+  background-color: var(--menu-item-active) !important;
+  color: var(--menu-item-active-text) !important;
+}
+
+.ant-menu-submenu-title {
+  color: var(--text-primary) !important;
+}
+
+.ant-menu-submenu-arrow {
+  color: var(--text-primary) !important;
+}
+
+/* Card styling */
+.ant-card {
+  background-color: var(--card-bg) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-primary) !important;
+}
+
+.ant-card-head {
+  color: var(--text-primary) !important;
+  border-bottom-color: var(--border-color) !important;
+}
+
+.ant-card-head-title {
+  color: var(--text-primary) !important;
+}
+
+.ant-card-meta-title {
+  color: var(--text-primary) !important;
+}
+
+.ant-card-meta-description {
+  color: var(--text-secondary) !important;
+}
+
+/* Typography */
+.ant-typography {
+  color: var(--text-primary) !important;
+}
+
+h1.ant-typography, 
+h2.ant-typography, 
+h3.ant-typography, 
+h4.ant-typography, 
+h5.ant-typography {
+  color: var(--text-primary) !important;
+}
+
+.ant-typography-secondary {
+  color: var(--text-secondary) !important;
+}
+
+/* Form controls */
+.ant-input {
+  background-color: var(--input-bg) !important;
+  border-color: var(--border-color) !important;
+  color: var(--input-text) !important;
+}
+
+.ant-input-affix-wrapper {
+  background-color: var(--input-bg) !important;
+  border-color: var(--border-color) !important;
+  color: var(--input-text) !important;
+}
+
+.ant-select-selector {
+  background-color: var(--input-bg) !important;
+  border-color: var(--border-color) !important;
+  color: var(--input-text) !important;
+}
+
+.ant-select-selection-item {
+  color: var(--input-text) !important;
+}
+
+.ant-select-dropdown {
+  background-color: var(--dropdown-bg) !important;
+  border-color: var(--border-color) !important;
+}
+
+.ant-select-item {
+  color: var(--dropdown-text) !important;
+}
+
+.ant-select-item-option-selected {
+  background-color: var(--menu-item-active) !important;
+}
+
+/* Button styling */
+.ant-btn {
+  border-color: var(--border-color) !important;
+}
+
+.ant-btn-text {
+  color: var(--text-primary) !important;
+}
+
+.ant-btn-text:hover {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Dropdown styling */
+.ant-dropdown-menu {
+  background-color: var(--dropdown-bg) !important;
+  border-color: var(--border-color) !important;
+}
+
+.ant-dropdown-menu-item {
+  color: var(--dropdown-text) !important;
+}
+
+.ant-dropdown-menu-item:hover {
+  background-color: var(--menu-item-active) !important;
+}
+
+/* Tooltip styling */
+.ant-tooltip-inner {
+  background-color: var(--tooltip-bg) !important;
+  color: var(--tooltip-text) !important;
+}
+
+/* Table styling */
+.ant-table {
+  background-color: var(--table-bg) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+.ant-table-thead > tr > th {
+  background-color: var(--table-header-bg) !important;
+  color: var(--table-header-text) !important;
+  border-bottom-color: var(--border-color) !important;
+}
+
+.ant-table-tbody > tr > td {
+  border-bottom-color: var(--border-color) !important;
+}
+
+.ant-table-tbody > tr:hover > td {
+  background-color: var(--table-row-hover) !important;
+}
+
+/* Statistic component */
+.ant-statistic-title {
+  color: var(--text-secondary) !important;
+}
+
+.ant-statistic-content {
+  color: var(--text-primary) !important;
+}
+
+/* Layout content */
+.ant-layout-content {
+  background-color: var(--component-bg) !important;
+}
+
+/* Dark theme adjustments for sidebar */
+[data-theme="dark"] .ant-menu-light .ant-menu-item-selected {
+  background-color: #1890ff !important;
+  color: white !important;
+}
+
+[data-theme="dark"] .ant-menu-light .ant-menu-item:hover,
+[data-theme="dark"] .ant-menu-light .ant-menu-submenu-title:hover {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+[data-theme="dark"] .ant-menu-light {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .ant-menu-light .ant-menu-submenu-title {
+  color: var(--text-primary);
+}
+
+/* Dark mode specific overrides */
+[data-theme="dark"] {
+  /* Fix any remaining light components in dark mode */
+  .ant-modal-content,
+  .ant-modal-header {
+    background-color: var(--component-bg);
+    color: var(--text-primary);
+  }
+  
+  .ant-modal-title {
+    color: var(--text-primary);
+  }
+  
+  .ant-modal-close-x {
+    color: var(--text-primary);
+  }
+  
+  .ant-badge-count {
+    color: #ffffff;
+  }
+  
+  /* Fix form labels in dark mode */
+  .ant-form-item-label > label {
+    color: var(--text-primary);
+  }
+  
+  /* Fix descriptions in dark mode */
+  .ant-descriptions-item-label,
+  .ant-descriptions-item-content {
+    color: var(--text-primary);
+  }
+  
+  /* Fix tab text in dark mode */
+  .ant-tabs-tab {
+    color: var(--text-secondary);
+  }
+  
+  .ant-tabs-tab-active {
+    color: var(--text-primary);
+  }
+  
+  /* Fix status tags */
+  .ant-tag {
+    border-color: var(--border-color);
+    background-color: var(--component-bg);
+  }
+  
+  /* Fix tooltips */
+  .ant-tooltip {
+    max-width: 400px;
+  }
+  
+  /* Fix pagination */
+  .ant-pagination-item-link,
+  .ant-pagination-item a {
+    color: var(--text-primary);
+  }
+  
+  /* Fix radio buttons */
+  .ant-radio-wrapper {
+    color: var(--text-primary);
+  }
+  
+  /* Fix checkbox */
+  .ant-checkbox-wrapper {
+    color: var(--text-primary);
+  }
+  
+  /* Fix dates */
+  .ant-picker {
+    background-color: var(--input-bg);
+  }
+  
+  .ant-picker-input > input {
+    color: var(--text-primary);
+  }
+  
+  /* Fix alerts */
+  .ant-alert {
+    border: 1px solid var(--border-color);
+  }
+  
+  /* Fix steps */
+  .ant-steps-item-title {
+    color: var(--text-primary);
+  }
+}
+
+/* General color fixes for links and button text */
+a {
+  color: #1890ff;
+}
+
+a:hover {
+  color: #40a9ff;
+}
+
+/* Make sure icons have proper contrast */
+.anticon {
+  color: inherit;
+}
+
+/* Fix tab content background */
+.ant-tabs-content {
+  background-color: var(--component-bg);
+} 

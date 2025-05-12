@@ -39,6 +39,12 @@ func (m *AuthMiddleware) RequireAuth(next http.Handler) http.Handler {
 
 		// Add user info to request context
 		ctx := context.WithValue(r.Context(), "user", claims)
+
+		// Also add userID for backward compatibility
+		if userID, ok := (*claims)["user_id"]; ok && userID != nil {
+			ctx = context.WithValue(ctx, "userID", userID.(string))
+		}
+
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }

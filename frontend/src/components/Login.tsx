@@ -1,24 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { authService } from '../services/authService';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useUser } from '../context/UserContext';
+import { Alert } from 'antd';
 
 export function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isExpiredSession, setIsExpiredSession] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
+  const location = useLocation();
   const { setUser } = useUser();
+
+  // Check URL parameters and sessionStorage for redirectPath
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const expired = searchParams.get('expired');
+    
+    if (expired === 'true') {
+      setIsExpiredSession(true);
+    }
+  }, [location]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+    setError('');
+    
     try {
       const response = await authService.login({ email, password });
       setUser(response.user);
-      navigate('/dashboard');
+      
+      // Check if we should redirect to a specific path
+      const redirectPath = sessionStorage.getItem('redirectPath');
+      if (redirectPath) {
+        // Clear the redirect path from session storage
+        sessionStorage.removeItem('redirectPath');
+        navigate(redirectPath);
+      } else {
+        navigate('/dashboard');
+      }
     } catch (err) {
       setError('Invalid credentials');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -30,6 +58,17 @@ export function Login() {
             Sign in to your account
           </h2>
         </div>
+        
+        {isExpiredSession && (
+          <Alert
+            message="Session Expired"
+            description="Your session has expired. Please sign in again to continue."
+            type="warning"
+            showIcon
+            className="mb-4"
+          />
+        )}
+        
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           {error && (
             <div className="text-red-500 text-sm text-center">{error}</div>
@@ -66,8 +105,9 @@ export function Login() {
             <button
               type="submit"
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              disabled={loading}
             >
-              Sign in
+              {loading ? 'Signing in...' : 'Sign in'}
             </button>
           </div>
           <div>
@@ -75,6 +115,7 @@ export function Login() {
               type="button"
               onClick={() => authService.loginWithGoogle()}
               className="group relative w-full flex justify-center py-2 px-4 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              disabled={loading}
             >
               Sign in with Google
             </button>
