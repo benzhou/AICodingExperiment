@@ -1,0 +1,17 @@
+Transaction ID,Date,Account Number,Account Name,Description,Reference,Debit Amount,Credit Amount,Currency,Department,Project,Cost Center
+GL001,2023-01-05,1010,Cash,Customer payment,INV-2023-001,5000.00,0.00,USD,Sales,Project A,CC001
+GL002,2023-01-05,4010,Revenue,Customer payment,INV-2023-001,0.00,5000.00,USD,Sales,Project A,CC001
+GL003,2023-01-10,6010,Office Supplies,Purchase of stationery,PO-2023-001,250.75,0.00,USD,Operations,Project B,CC002
+GL004,2023-01-10,1010,Cash,Purchase of stationery,PO-2023-001,0.00,250.75,USD,Operations,Project B,CC002
+GL005,2023-01-15,6020,Utilities,Electricity bill payment,UTIL-2023-001,320.50,0.00,USD,Facilities,Project C,CC003
+GL006,2023-01-15,1010,Cash,Electricity bill payment,UTIL-2023-001,0.00,320.50,USD,Facilities,Project C,CC003
+GL007,2023-01-20,1010,Cash,Customer payment,INV-2023-002,3500.00,0.00,USD,Sales,Project D,CC001
+GL008,2023-01-20,4010,Revenue,Customer payment,INV-2023-002,0.00,3500.00,USD,Sales,Project D,CC001
+GL009,2023-01-25,6030,Salaries,Monthly payroll,PAY-2023-001,12500.00,0.00,USD,HR,Project E,CC004
+GL010,2023-01-25,1010,Cash,Monthly payroll,PAY-2023-001,0.00,12500.00,USD,HR,Project E,CC004
+GL011,2023-01-30,1020,Accounts Receivable,Customer invoice,INV-2023-003,7500.00,0.00,USD,Sales,Project F,CC001
+GL012,2023-01-30,4010,Revenue,Customer invoice,INV-2023-003,0.00,7500.00,USD,Sales,Project F,CC001
+GL013,2023-02-05,1010,Cash,Customer payment,INV-2023-003,7500.00,0.00,USD,Sales,Project F,CC001
+GL014,2023-02-05,1020,Accounts Receivable,Customer payment,INV-2023-003,0.00,7500.00,USD,Sales,Project F,CC001
+GL015,2023-02-10,6040,Marketing Expenses,Digital marketing campaign,MKT-2023-001,1800.00,0.00,USD,Marketing,Project G,CC005
+GL016,2023-02-10,1010,Cash,Digital marketing campaign,MKT-2023-001,0.00,1800.00,USD,Marketing,Project G,CC005 
