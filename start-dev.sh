@@ -3,6 +3,48 @@
 # Added debug echo
 echo "Starting script..."
 
+# Function to clean up processes when script exits
+cleanup_processes() {
+    echo "Performing cleanup..."
+    
+    # Try to kill any running Air or Go processes
+    echo "Checking for Air and Go processes..."
+    
+    # Look for processes on port 8080
+    if lsof -i:8080 -t >/dev/null 2>&1; then
+        echo "Killing processes on port 8080..."
+        lsof -i:8080 -t | xargs kill -9 2>/dev/null
+    else
+        echo "No processes found on port 8080."
+    fi
+    
+    # Look for Air processes
+    air_pids=$(pgrep -f 'air' 2>/dev/null)
+    if [ -n "$air_pids" ]; then
+        echo "Killing Air processes..."
+        for pid in $air_pids; do
+            echo "Killing Air process with PID $pid"
+            kill -9 $pid 2>/dev/null
+        done
+    else
+        echo "No Air processes found."
+    fi
+    
+    # Look for tmp/main processes (compiled by Air)
+    tmp_main_pids=$(pgrep -f 'tmp/main' 2>/dev/null)
+    if [ -n "$tmp_main_pids" ]; then
+        echo "Killing tmp/main processes..."
+        for pid in $tmp_main_pids; do
+            echo "Killing tmp/main process with PID $pid"
+            kill -9 $pid 2>/dev/null
+        done
+    else
+        echo "No tmp/main processes found."
+    fi
+    
+    echo "Cleanup completed."
+}
+
 # Function to kill tmux sessions
 kill_tmux_session() {
     if command -v tmux >/dev/null 2>&1; then
@@ -141,6 +183,12 @@ case "$create_admin" in
         ;;
 esac
 
+# First, clean up any existing processes
+cleanup_processes
+
+# Set up trap to cleanup on exit
+trap cleanup_processes EXIT INT TERM
+
 # Create a new tmux session
 if command_exists tmux; then
     echo "Tmux is installed, using tmux for development"
@@ -177,6 +225,12 @@ if command_exists tmux; then
         fi
     fi
 
+    # Configure tmux to send signals to child processes on exit
+    tmux set-option -g remain-on-exit off
+    
+    # Set up a main session hook to clean up processes when the session ends
+    tmux set-hook -g session-closed 'run-shell "pkill -f air; pkill -f tmp/main; pkill -f "go run""'
+
     # Split window horizontally
     echo "Splitting tmux window"
     tmux split-window -h
@@ -184,12 +238,12 @@ if command_exists tmux; then
     # Select first pane and start backend
     echo "Starting backend in first pane"
     tmux select-pane -t 0
-    tmux send-keys "cd backend && air" C-m
+    tmux send-keys "cd backend && air; exit" C-m
 
     # Select second pane and start frontend
     echo "Starting frontend in second pane"
     tmux select-pane -t 1
-    tmux send-keys "cd frontend && npm start" C-m
+    tmux send-keys "cd frontend && npm start; exit" C-m
 
     # Attach to the session
     echo "Attaching to tmux session"

@@ -10,7 +10,7 @@ tmp_dir = "tmp"
   exclude_regex = ["_test.go"]
   kill_delay = "0s"
   log = "build-errors.log"
-  send_interrupt = false
+  send_interrupt = true
   stop_on_error = true
 
 [color]
